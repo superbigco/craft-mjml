@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <circle id="Oval-Copy" fill="#F46D4C" cx="256" cy="256" r="256"></circle>
+            <g id="logo" transform="translate(115.000000, 134.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                <circle id="Oval-38-Copy-9" cx="252.5" cy="29.5" r="29.5"></circle>
+                <rect id="Rectangle-path" x="0" y="0" width="195" height="59" rx="20.5"></rect>
+                <circle id="Oval-38-Copy-9-2" cx="29.5" cy="122.5" r="29.5"></circle>
+                <rect id="Rectangle-path" transform="translate(184.500000, 122.500000) rotate(180.000000) translate(-184.500000, -122.500000) " x="87" y="93" width="195" height="59" rx="20.5"></rect>
+                <circle id="Oval-38-Copy-9-3" cx="252.5" cy="215.5" r="29.5"></circle>
+                <rect id="Rectangle-path" x="0" y="186" width="195" height="59" rx="20.5"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

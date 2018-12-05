@@ -1,0 +1,52 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * MJML plugin for Craft CMS 3.x
+ *
+ * MJML Settings.twig
+ *
+ * @author    Superbig
+ * @copyright Copyright (c) 2018 Superbig
+ * @link      https://superbig.co
+ * @package   MJML
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+<h2>MJML API</h2>
+
+{{ forms.textField({
+    label: 'API App ID',
+    instructions: 'Enter the app id received by email',
+    id: 'appId',
+    name: 'appId',
+    value: settings['appId']})
+}}
+
+{{ forms.textField({
+    label: 'API Secret Key',
+    instructions: 'Enter the secret key received by email',
+    id: 'secretKey',
+    name: 'secretKey',
+    value: settings['secretKey']})
+}}
+
+<h2>MJML local CLI</h2>
+
+{{ forms.textField({
+    label: 'Node path',
+    instructions: 'Enter the path to where the your version of Node is located, i.e. `/usr/local/bin/node`',
+    id: 'nodePath',
+    name: 'nodePath',
+    value: settings['nodePath']})
+}}
+
+{{ forms.textField({
+    label: 'MJML cli path',
+    instructions: 'Enter the path to where the MJML cli installed with npm is located, i.e. `/usr/local/bin/mjml`',
+    id: 'nodePath',
+    name: 'nodePath',
+    value: settings['nodePath']})
+}}

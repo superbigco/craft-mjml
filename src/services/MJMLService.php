@@ -84,7 +84,7 @@ class MJMLService extends Component
         $settings       = MJML::$plugin->getSettings();
         $mjmlPath       = "{$settings->nodePath} {$settings->mjmlCliPath}";
         $hash           = md5($html);
-        $tempPath       = Craft::$app->getPath()->getTempPath() . '/mjml/mjml.html';
+        $tempPath       = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
 
         if (!file_exists($tempOutputPath)) {

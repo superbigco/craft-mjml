@@ -96,8 +96,7 @@ class MJMLService extends Component
             
             // Log Cli output if in devMode
             if(Craft::$app->getConfig()->general->devMode){
-	        	Craft::info($message, 'superbig\mjml');   
-	        	die('Ende');
+	        	Craft::info($message, 'mjml');   
             }
         }
 

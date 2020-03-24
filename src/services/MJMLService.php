@@ -92,7 +92,12 @@ class MJMLService extends Component
 
             $cmd = "$mjmlPath $tempPath -o $tempOutputPath";
 
-            $this->executeShellCommand($cmd);
+            $message = $this->executeShellCommand($cmd);
+            
+            // Log Cli output if in devMode
+            if(Craft::$app->getConfig()->general->devMode){
+	        	Craft::info($message, 'mjml');   
+            }
         }
 
         $output = file_get_contents($tempOutputPath);

@@ -87,7 +87,7 @@ class MJMLService extends Component
         $tempPath       = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
 
-        if (file_exists($tempOutputPath) == false or Craft::$app->request->isLivePreview()) {
+        if (file_exists($tempOutputPath) == false or Craft::$app->request->getIsPreview()) {
             FileHelper::writeToFile($tempPath, $html);
 
             $cmd = "$mjmlPath $tempPath -o $tempOutputPath";

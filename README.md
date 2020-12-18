@@ -60,6 +60,9 @@ return [
     // The path to where the MJML cli installed with npm is located, i.e. `/usr/local/bin/mjml`
     'mjmlCliPath'   => '',
 
+    // cli config args, e.g. `--config.minify true`',
+    'mjmlCliConfigArgs'   => '',
+
     // The app id received by email
     'appId'     => '',
 

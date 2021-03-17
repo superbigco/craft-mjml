@@ -112,4 +112,21 @@ Dynamic example with MJML CLI:
 
 To use the API instead, swap `mjmlCli` with `mjml`.
 
+### Caching
+
+The above examples will be cached. If you are passing Twig variables, each output will however be unique, rendering the cache ineffective.
+
+In this instance you probably would like to use the `include` method:
+
+```twig
+{{ craft.mjml.include('path/to/template.twig', { 
+    subject: 'Static subject', 
+    email: contact.email, 
+}) }}
+```
+
+Here is an example passing a contact in a [newsletter template inside the Campaign plugin](https://putyourlightson.com/plugins/campaign#mjml). The template path here is relative to your site templates root.
+
+This will first render the MJML template once, cache it, then it will render the dynamic parts with Twig for each instance.
+
 Brought to you by [Superbig](https://superbig.co)

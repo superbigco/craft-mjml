@@ -13,12 +13,14 @@ namespace superbig\mjml\services;
 use craft\helpers\FileHelper;
 use craft\helpers\Json;
 use craft\helpers\Template;
+use craft\web\View;
 use GuzzleHttp\Client;
 use mikehaertl\shellcommand\Command;
 use superbig\mjml\MJML;
 
 use Craft;
 use craft\base\Component;
+use superbig\mjml\exceptions\MJMLException;
 use superbig\mjml\models\MJMLModel;
 
 /**
@@ -39,10 +41,10 @@ class MJMLService extends Component
     public function parse($html)
     {
         $settings = MJML::$plugin->getSettings();
-        $hash     = md5($html);
-        $client   = new Client([
+        $hash = md5($html);
+        $client = new Client([
             'base_uri' => 'https://api.mjml.io/v1/',
-            'auth'     => [$settings->appId, $settings->secretKey],
+            'auth' => [$settings->appId, $settings->secretKey],
         ]);
 
         try {
@@ -73,26 +75,64 @@ class MJMLService extends Component
         }
     }
 
+    public function include(string $template = '', $variables = [], $renderMethod = 'cli')
+    {
+        try {
+            $templatePath = Craft::$app->getView()->resolveTemplate($template, View::TEMPLATE_MODE_SITE);
+
+            if (!$templatePath) {
+                throw new MJMLException('Could not find template: ' . $template);
+            }
+
+            $html = file_get_contents($templatePath);
+            $hash = md5($html);
+            /** @var MJMLModel|null $output */
+            $output = Craft::$app->getCache()->getOrSet("mjml-{$hash}-{$renderMethod}", function() use ($html, $renderMethod) {
+                return $renderMethod === 'cli' ? $this->parseCli($html) : $this->parse($html);
+            });
+
+            if (!$output) {
+                throw new MJMLException('Could not render template: ' . $template);
+            }
+
+            return Craft::$app->getView()->renderString($output->output(), $variables);
+        } catch (MJMLException $e) {
+            Craft::error('Could not generate output: ' . $e->getMessage(), 'mjml');
+        }
+    }
+
     /**
      * @param null $html
      *
-     * @return MJMLModel
+     * @return MJMLModel|null
      * @throws \yii\base\ErrorException
      */
     public function parseCli($html = null)
     {
-        $settings       = MJML::$plugin->getSettings();
-        $mjmlPath       = "{$settings->nodePath} {$settings->mjmlCliPath}";
-        $hash           = md5($html);
-        $tempPath       = Craft::$app->getPath()->getTempPath() . '/mjml/mjml.html';
+        $settings = MJML::$plugin->getSettings();
+        $mjmlPath = "{$settings->nodePath} {$settings->mjmlCliPath}";
+        $hash = md5($html);
+        $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
 
+        try {
+            if (!file_exists($tempOutputPath)) {
+                FileHelper::writeToFile($tempPath, $html);
+
+                $cmd = "$mjmlPath $tempPath -o $tempOutputPath";
+
+                $this->executeShellCommand($cmd);
+            }
+        } catch (MJMLException $e) {
+            Craft::error('Could not generate output: ' . $e->getMessage(), 'mjml');
+
+            return null;
+        }
+
         if (!file_exists($tempOutputPath)) {
-            FileHelper::writeToFile($tempPath, $html);
+            Craft::error('Could not find generated output: ' . $tempOutputPath, 'mjml');
 
-            $cmd = "$mjmlPath $tempPath -o $tempOutputPath";
-
-            $this->executeShellCommand($cmd);
+            return null;
         }
 
         $output = file_get_contents($tempOutputPath);
@@ -126,13 +166,10 @@ class MJMLService extends Component
         }
 
         // Return the result of the command's output or error
-        if ($shellCommand->execute()) {
-            $result = $shellCommand->getOutput();
-        }
-        else {
-            $result = $shellCommand->getError();
+        if (!$shellCommand->execute()) {
+            throw new MJMLException("Failed to run {$command}: " . $shellCommand->getError());
         }
 
-        return $result;
+        return $shellCommand->getOutput();
     }
 }

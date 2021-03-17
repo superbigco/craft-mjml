@@ -46,7 +46,15 @@
 {{ forms.textField({
     label: 'MJML cli path',
     instructions: 'Enter the path to where the MJML cli installed with npm is located, i.e. `/usr/local/bin/mjml`',
-    id: 'nodePath',
-    name: 'nodePath',
-    value: settings['nodePath']})
+    id: 'mjmlCliPath',
+    name: 'mjmlCliPath',
+    value: settings['mjmlCliPath']})
+}}
+
+{{ forms.textField({
+    label: 'MJML cli config args',
+    instructions: 'Enter the (optional) cli config args, e.g. `--config.minify true`',
+    id: 'mjmlCliConfigArgs',
+    name: 'mjmlCliConfigArgs',
+    value: settings['mjmlCliConfigArgs']})
 }}

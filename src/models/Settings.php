@@ -38,6 +38,11 @@ class Settings extends Model
     /**
      * @var string
      */
+    public $mjmlCliConfigArgs = '';
+
+    /**
+     * @var string
+     */
     public $appId = '';
 
     /**
@@ -54,7 +59,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['appId', 'secretKey', 'mjmlCliPath', 'nodePath'], 'string'],
+            [['appId', 'secretKey', 'mjmlCliPath', 'nodePath', 'mjmlCliConfigArgs'], 'string'],
             [['appId', 'secretKey'], 'required'],
         ];
     }

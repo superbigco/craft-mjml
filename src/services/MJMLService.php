@@ -110,6 +110,7 @@ class MJMLService extends Component
     public function parseCli($html = null)
     {
         $settings = MJML::$plugin->getSettings();
+        $configArgs = "{$settings->mjmlCliConfigArgs}";
         $mjmlPath = "{$settings->nodePath} {$settings->mjmlCliPath}";
         $hash = md5($html);
         $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
@@ -119,7 +120,7 @@ class MJMLService extends Component
             if (!file_exists($tempOutputPath)) {
                 FileHelper::writeToFile($tempPath, $html);
 
-                $cmd = "$mjmlPath $tempPath -o $tempOutputPath";
+                $cmd = "$mjmlPath $tempPath $configArgs -o $tempOutputPath";
 
                 $this->executeShellCommand($cmd);
             }

@@ -141,4 +141,30 @@ Here is an example passing a contact in a [newsletter template inside the Campai
 
 This will first render the MJML template once, cache it, then it will render the dynamic parts with Twig for each instance.
 
+### Includes
+
+A caveat if you want to use includes:
+
+Twig's built-in `include` method won't work in combination with MJML inside the template passed to the plugin `include` method.
+
+This is because MJML is rendered first, before Twig, so if you include MJML in a partial that won't be rendered.
+
+#### Workaround for MJML includes
+
+_Note that this is only supported for the CLI option._
+
+A workaround for partials is to use the `<mj-include />` tag to. Any partials referenced here will be relative to the Site templates root.
+
+```html
+<mj-include path="./mjml-partial.twig" />
+```
+
+Note that you have to append the file extension here. This will resolve to `/templates/mjml-partial.twig`.
+
+Another caveat with `mj-include` is that the content of partials isn't currently included when checking the cache of a rendered MJML template.
+
+This means that if you render a MJML template that in turns has a `<mj-include />` partial, then changes the content of the partial, the cache will be stale and your template won't reflect the changes.
+
+A workaround for now is to clear the `storage/runtime/temp/mjml` folder in case this happens to you.
+
 Brought to you by [Superbig](https://superbig.co)

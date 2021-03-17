@@ -43,6 +43,11 @@ class Settings extends Model
     /**
      * @var string
      */
+    public $mjmlCliIncludesPath = '';
+
+    /**
+     * @var string
+     */
     public $appId = '';
 
     /**
@@ -50,8 +55,12 @@ class Settings extends Model
      */
     public $secretKey = '';
 
-    // Public Methods
-    // =========================================================================
+    public function init()
+    {
+        $this->mjmlCliIncludesPath = Craft::$app->getView()->getTemplatesPath();
+
+        parent::init();
+    }
 
     /**
      * @inheritdoc

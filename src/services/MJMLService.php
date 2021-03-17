@@ -111,6 +111,11 @@ class MJMLService extends Component
     {
         $settings = MJML::$plugin->getSettings();
         $configArgs = "{$settings->mjmlCliConfigArgs}";
+
+        if (!empty($settings->mjmlCliIncludesPath)) {
+            $configArgs = "{$configArgs} --config.filePath {$settings->mjmlCliIncludesPath}";
+        }
+
         $mjmlPath = "{$settings->nodePath} {$settings->mjmlCliPath}";
         $hash = md5($html);
         $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";

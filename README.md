@@ -128,6 +128,15 @@ In this instance you probably would like to use the `include` method:
 }) }}
 ```
 
+The `include` method uses the CLI option by default, but you can set it to use the MJML API by passing `api` as the third option, like so:
+
+```twig
+{{ craft.mjml.include('path/to/template.twig', { 
+    subject: 'Static subject', 
+    email: contact.email, 
+}, 'api') }}
+```
+
 Here is an example passing a contact in a [newsletter template inside the Campaign plugin](https://putyourlightson.com/plugins/campaign#mjml). The template path here is relative to your site templates root.
 
 This will first render the MJML template once, cache it, then it will render the dynamic parts with Twig for each instance.

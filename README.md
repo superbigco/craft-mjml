@@ -83,8 +83,8 @@ To use the API, you need to [request a API key](https://mjml.io/api).
 Dynamic example with MJML CLI:
 
 ```twig
-{% filter mjmlCli %}
-    {%- spaceless %}
+{% apply mjmlCli %}
+    {%- apply spaceless %}
         <mjml>
             <mj-body>
                 <mj-section>
@@ -109,8 +109,8 @@ Dynamic example with MJML CLI:
                 {% endfor %}
             </mj-body>
         </mjml>
-    {% endspaceless %}
-{% endfilter %}
+    {% endapply %}
+{% endapply %}
 ```
 
 To use the API instead, swap `mjmlCli` with `mjml`.

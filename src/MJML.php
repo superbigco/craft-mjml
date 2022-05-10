@@ -37,24 +37,15 @@ use yii\base\Event;
  */
 class MJML extends Plugin
 {
-    // Static Properties
-    // =========================================================================
-
     /**
      * @var MJML
      */
     public static $plugin;
 
-    // Public Properties
-    // =========================================================================
-
     /**
      * @var string
      */
     public $schemaVersion = '1.0.0';
-
-    // Public Methods
-    // =========================================================================
 
     /**
      * @inheritdoc
@@ -97,9 +88,6 @@ class MJML extends Plugin
             __METHOD__
         );
     }
-
-    // Protected Methods
-    // =========================================================================
 
     /**
      * @inheritdoc

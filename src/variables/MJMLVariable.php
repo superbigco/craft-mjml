@@ -10,6 +10,7 @@
 
 namespace superbig\mjml\variables;
 
+use craft\helpers\Template;
 use superbig\mjml\MJML;
 
 use Craft;
@@ -26,13 +27,23 @@ class MJMLVariable
     // =========================================================================
 
     /**
-     * @param null $html
+     * @param null|string $html
      *
      * @return MJMLModel|null
      */
     public function parse($html = null)
     {
         return MJML::$plugin->mjmlService->parse($html);
+    }
+
+    /**
+     * @param string $template
+     *
+     * @return MJMLModel|null
+     */
+    public function include(string $template = '', $variables = null, $renderMethod = 'cli')
+    {
+        return Template::raw(MJML::$plugin->mjmlService->include($template, $variables, $renderMethod));
     }
 
     /**

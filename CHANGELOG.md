@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.0-beta.1
+
+### Added
+- Added Craft 4 support
+
 ## 1.0.6 - 2021-03-17
 ### Added
 - Added `include` method similar to Twig's `include` method so we can cache the MJML template once and then render the dynamic parts with Twig

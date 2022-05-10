@@ -55,7 +55,7 @@ class Settings extends Model
      */
     public $secretKey = '';
 
-    public function init()
+    public function init(): void
     {
         $this->mjmlCliIncludesPath = Craft::$app->getView()->getTemplatesPath();
 
@@ -65,7 +65,7 @@ class Settings extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['appId', 'secretKey', 'mjmlCliPath', 'nodePath', 'mjmlCliConfigArgs'], 'string'],

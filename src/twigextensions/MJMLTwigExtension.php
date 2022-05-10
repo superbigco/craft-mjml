@@ -19,7 +19,7 @@ use Craft;
  * @package   MJML
  * @since     1.0.0
  */
-class MJMLTwigExtension extends \Twig_Extension
+class MJMLTwigExtension extends \Twig\Extension\AbstractExtension
 {
     // Public Methods
     // =========================================================================
@@ -38,8 +38,8 @@ class MJMLTwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('mjml', [$this, 'mjml']),
-            new \Twig_SimpleFilter('mjmlCli', [$this, 'mjmlCli']),
+            new \Twig\TwigFilter('mjml', [$this, 'mjml']),
+            new \Twig\TwigFilter('mjmlCli', [$this, 'mjmlCli']),
         ];
     }
 

@@ -13,7 +13,6 @@ namespace superbig\mjml\variables;
 use craft\helpers\Template;
 use superbig\mjml\MJML;
 
-use Craft;
 use superbig\mjml\models\MJMLModel;
 
 /**

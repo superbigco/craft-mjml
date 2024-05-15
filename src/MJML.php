@@ -10,18 +10,16 @@
 
 namespace superbig\mjml;
 
-use superbig\mjml\services\MJMLService;
-use superbig\mjml\variables\MJMLVariable;
-use superbig\mjml\twigextensions\MJMLTwigExtension;
-use superbig\mjml\models\Settings;
-
 use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
-use craft\web\UrlManager;
-use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
+use craft\web\twig\variables\CraftVariable;
+
+use craft\web\UrlManager;
+use superbig\mjml\models\Settings;
+use superbig\mjml\services\MJMLService;
+use superbig\mjml\twigextensions\MJMLTwigExtension;
+use superbig\mjml\variables\MJMLVariable;
 
 use yii\base\Event;
 

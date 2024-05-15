@@ -10,17 +10,16 @@
 
 namespace superbig\mjml\services;
 
-use craft\helpers\FileHelper;
-use craft\helpers\Json;
-use craft\helpers\Template;
-use craft\web\View;
-use GuzzleHttp\Client;
-use mikehaertl\shellcommand\Command;
-use superbig\mjml\MJML;
-
 use Craft;
 use craft\base\Component;
+use craft\helpers\FileHelper;
+use craft\helpers\Json;
+use craft\web\View;
+use GuzzleHttp\Client;
+
+use mikehaertl\shellcommand\Command;
 use superbig\mjml\exceptions\MJMLException;
+use superbig\mjml\MJML;
 use superbig\mjml\models\MJMLModel;
 
 /**

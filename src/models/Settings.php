@@ -10,10 +10,10 @@
 
 namespace superbig\mjml\models;
 
-use superbig\mjml\MJML;
-
 use Craft;
+
 use craft\base\Model;
+use superbig\mjml\MJML;
 
 /**
  * @author    Superbig

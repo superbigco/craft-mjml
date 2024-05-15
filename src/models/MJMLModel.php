@@ -10,8 +10,8 @@
 
 namespace superbig\mjml\models;
 
-use craft\helpers\Template;
 use craft\base\Model;
+use craft\helpers\Template;
 
 /**
  * @author    Superbig

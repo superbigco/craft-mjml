@@ -12,8 +12,6 @@ namespace superbig\mjml\twigextensions;
 
 use superbig\mjml\MJML;
 
-use Craft;
-
 /**
  * @author    Superbig
  * @package   MJML

@@ -22,25 +22,12 @@ use superbig\mjml\models\MJMLModel;
  */
 class MJMLVariable
 {
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @param null|string $html
-     *
-     * @return MJMLModel|null
-     */
-    public function parse($html = null)
+    public function parse(string $html = null): ?MJMLModel
     {
         return MJML::$plugin->mjmlService->parse($html);
     }
 
-    /**
-     * @param string $template
-     *
-     * @return MJMLModel|null
-     */
-    public function include(string $template = '', $variables = null, $renderMethod = 'cli')
+    public function include(string $template = '', $variables = null, $renderMethod = 'cli'): \Twig\Markup
     {
         return Template::raw(MJML::$plugin->mjmlService->include($template, $variables, $renderMethod));
     }

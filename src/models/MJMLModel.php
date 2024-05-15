@@ -20,28 +20,11 @@ use craft\helpers\Template;
  */
 class MJMLModel extends Model
 {
-    // Public Properties
-    // =========================================================================
+    public string $html;
+    public string $mjml;
+    public string $mjmlVersion;
 
-    /**
-     * @var string
-     */
-    public $html;
-
-    /**
-     * @var string
-     */
-    public $mjml;
-
-    /**
-     * @var string
-     */
-    public $mjmlVersion;
-
-    // Public Methods
-    // =========================================================================
-
-    public function output()
+    public function output(): \Twig\Markup
     {
         return Template::raw($this->html);
     }

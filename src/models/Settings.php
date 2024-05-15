@@ -22,38 +22,12 @@ use superbig\mjml\MJML;
  */
 class Settings extends Model
 {
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $nodePath = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliPath = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliConfigArgs = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliIncludesPath = '';
-
-    /**
-     * @var string
-     */
-    public $appId = '';
-
-    /**
-     * @var string
-     */
-    public $secretKey = '';
+    public string $nodePath = '';
+    public string $mjmlCliPath = '';
+    public string $mjmlCliConfigArgs = '';
+    public string $mjmlCliIncludesPath = '';
+    public string $appId = '';
+    public string $secretKey = '';
 
     public function init(): void
     {
@@ -62,9 +36,11 @@ class Settings extends Model
         parent::init();
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function behaviors()
+    {
+        
+    }
+
     public function rules(): array
     {
         return [

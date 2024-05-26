@@ -22,7 +22,6 @@ class MJMLModel extends Model
 {
     public string $html;
     public string $mjml;
-    public string $mjmlVersion;
 
     public function output(): \Twig\Markup
     {
@@ -30,9 +29,18 @@ class MJMLModel extends Model
     }
 
     /**
+     * @param array{html: string, mjml: string} $results
+     * @return MJMLModel
+     */
+    public static function create(array $results): MJMLModel
+    {
+        return new self($results);
+    }
+
+    /**
      * @inheritdoc
      */
-    public function rules(): array
+    public function defineRules(): array
     {
         return [
             [['html', 'mjml'], 'string'],

@@ -13,6 +13,8 @@ namespace superbig\mjml\twigextensions;
 use superbig\mjml\MJML;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use yii\base\ErrorException;
+use yii\base\Exception;
 
 /**
  * @author    Superbig
@@ -40,7 +42,7 @@ class MJMLTwigExtension extends AbstractExtension
         ];
     }
 
-    public function mjml($html = null): ?string
+    public function mjml($html = null): ?\Twig\Markup
     {
         $result = MJML::$plugin->mjmlService->parse($html);
 
@@ -51,7 +53,11 @@ class MJMLTwigExtension extends AbstractExtension
         return $result->output();
     }
 
-    public function mjmlCli($html = null): ?string
+    /**
+     * @throws ErrorException
+     * @throws Exception
+     */
+    public function mjmlCli($html = null): ?\Twig\Markup
     {
         $result = MJML::$plugin->mjmlService->parseCli($html);
 

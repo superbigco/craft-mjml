@@ -14,6 +14,7 @@ use craft\helpers\Template;
 use superbig\mjml\MJML;
 
 use superbig\mjml\models\MJMLModel;
+use yii\base\Exception;
 
 /**
  * @author    Superbig
@@ -33,12 +34,13 @@ class MJMLVariable
     }
 
     /**
-     * @param null $html
+     * @param string|null $html
      *
      * @return MJMLModel|null
      * @throws \yii\base\ErrorException
+     * @throws Exception
      */
-    public function parseCli($html = null)
+    public function parseCli($html = null): ?MJMLModel
     {
         return MJML::$plugin->mjmlService->parseCli($html);
     }

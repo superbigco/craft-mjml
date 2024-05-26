@@ -24,6 +24,7 @@ use superbig\mjml\MJML;
 use superbig\mjml\models\MJMLModel;
 use yii\base\ErrorException;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 
 /**
  * @author    Superbig
@@ -124,6 +125,16 @@ class MJMLService extends Component
         $hash = md5($html);
         $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
+
+        // Check if Node.js exists
+        if (!file_exists($nodePath)) {
+            throw new InvalidConfigException("Node.js executable not found at path: {$nodePath}");
+        }
+
+        // Check if MJML CLI exists
+        if (!file_exists($mjmlCliPath)) {
+            throw new InvalidConfigException("MJML CLI executable not found at path: {$mjmlCliPath}");
+        }
 
         try {
             if (!file_exists($tempOutputPath)) {

@@ -11,53 +11,38 @@
 namespace superbig\mjml\twigextensions;
 
 use superbig\mjml\MJML;
-
-use Craft;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use yii\base\ErrorException;
+use yii\base\Exception;
 
 /**
  * @author    Superbig
  * @package   MJML
  * @since     1.0.0
  */
-class MJMLTwigExtension extends \Twig\Extension\AbstractExtension
+class MJMLTwigExtension extends AbstractExtension
 {
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'MJML';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('mjml', [$this, 'mjml']),
-            new \Twig\TwigFilter('mjmlCli', [$this, 'mjmlCli']),
+            new TwigFilter('mjml', [$this, 'mjml']),
+            new TwigFilter('mjmlCli', [$this, 'mjmlCli']),
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
         ];
     }
 
-    /**
-     * @param null $html
-     *
-     * @return string
-     */
-    public function mjml($html = null)
+    public function mjml($html = null): ?\Twig\Markup
     {
         $result = MJML::$plugin->mjmlService->parse($html);
 
@@ -69,12 +54,10 @@ class MJMLTwigExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @param null $html
-     *
-     * @return string
-     * @throws \yii\base\ErrorException
+     * @throws ErrorException
+     * @throws Exception
      */
-    public function mjmlCli($html = null)
+    public function mjmlCli($html = null): ?\Twig\Markup
     {
         $result = MJML::$plugin->mjmlService->parseCli($html);
 

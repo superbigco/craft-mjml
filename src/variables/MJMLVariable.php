@@ -13,8 +13,8 @@ namespace superbig\mjml\variables;
 use craft\helpers\Template;
 use superbig\mjml\MJML;
 
-use Craft;
 use superbig\mjml\models\MJMLModel;
+use yii\base\Exception;
 
 /**
  * @author    Superbig
@@ -23,36 +23,24 @@ use superbig\mjml\models\MJMLModel;
  */
 class MJMLVariable
 {
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @param null|string $html
-     *
-     * @return MJMLModel|null
-     */
-    public function parse($html = null)
+    public function parse(string $html = null): ?MJMLModel
     {
         return MJML::$plugin->mjmlService->parse($html);
     }
 
-    /**
-     * @param string $template
-     *
-     * @return MJMLModel|null
-     */
-    public function include(string $template = '', $variables = null, $renderMethod = 'cli')
+    public function include(string $template = '', $variables = null, $renderMethod = 'cli'): \Twig\Markup
     {
         return Template::raw(MJML::$plugin->mjmlService->include($template, $variables, $renderMethod));
     }
 
     /**
-     * @param null $html
+     * @param string|null $html
      *
      * @return MJMLModel|null
      * @throws \yii\base\ErrorException
+     * @throws Exception
      */
-    public function parseCli($html = null)
+    public function parseCli($html = null): ?MJMLModel
     {
         return MJML::$plugin->mjmlService->parseCli($html);
     }

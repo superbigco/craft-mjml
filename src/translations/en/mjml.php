@@ -14,6 +14,6 @@
  * @since     1.0.0
  */
 return [
-    'MJML plugin loaded'            => 'MJML plugin loaded',
+    'MJML plugin loaded' => 'MJML plugin loaded',
     'Error rendering MJML: {error}' => 'Error rendering MJML: {error}',
 ];

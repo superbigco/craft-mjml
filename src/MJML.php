@@ -10,20 +10,22 @@
 
 namespace superbig\mjml;
 
-use superbig\mjml\services\MJMLService;
-use superbig\mjml\variables\MJMLVariable;
-use superbig\mjml\twigextensions\MJMLTwigExtension;
-use superbig\mjml\models\Settings;
-
 use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
-use craft\web\UrlManager;
-use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
+use craft\web\twig\variables\CraftVariable;
 
+use craft\web\UrlManager;
+use superbig\mjml\models\Settings;
+use superbig\mjml\services\MJMLService;
+use superbig\mjml\twigextensions\MJMLTwigExtension;
+use superbig\mjml\variables\MJMLVariable;
+
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
 
 /**
  * Class MJML
@@ -37,14 +39,7 @@ use yii\base\Event;
  */
 class MJML extends Plugin
 {
-    /**
-     * @var MJML
-     */
-    public static $plugin;
-
-    /**
-     * @var string
-     */
+    public static MJML $plugin;
     public string $schemaVersion = '1.0.0';
 
     /**
@@ -89,18 +84,18 @@ class MJML extends Plugin
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }
 
     /**
-     * @inheritdoc
+     * @throws SyntaxError
+     * @throws Exception
+     * @throws RuntimeError
+     * @throws LoaderError
      */
-    protected function settingsHtml(): ?string
+    protected function settingsHtml(): string
     {
         return Craft::$app->view->renderTemplate(
             'mjml/settings',

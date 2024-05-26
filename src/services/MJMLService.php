@@ -10,18 +10,20 @@
 
 namespace superbig\mjml\services;
 
-use craft\helpers\FileHelper;
-use craft\helpers\Json;
-use craft\helpers\Template;
-use craft\web\View;
-use GuzzleHttp\Client;
-use mikehaertl\shellcommand\Command;
-use superbig\mjml\MJML;
-
 use Craft;
 use craft\base\Component;
+use craft\helpers\App;
+use craft\helpers\FileHelper;
+use craft\helpers\Json;
+use craft\web\View;
+use GuzzleHttp\Client;
+
+use mikehaertl\shellcommand\Command;
 use superbig\mjml\exceptions\MJMLException;
+use superbig\mjml\MJML;
 use superbig\mjml\models\MJMLModel;
+use yii\base\ErrorException;
+use yii\base\Exception;
 
 /**
  * @author    Superbig
@@ -30,21 +32,13 @@ use superbig\mjml\models\MJMLModel;
  */
 class MJMLService extends Component
 {
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @param $html
-     *
-     * @return null|MJMLModel
-     */
-    public function parse($html)
+    public function parse(string $html): ?MJMLModel
     {
         $settings = MJML::$plugin->getSettings();
         $hash = md5($html);
         $client = new Client([
             'base_uri' => 'https://api.mjml.io/v1/',
-            'auth' => [$settings->appId, $settings->secretKey],
+            'auth' => [App::parseEnv($settings->appId), App::parseEnv($settings->secretKey)],
         ]);
 
         try {
@@ -58,7 +52,7 @@ class MJMLService extends Component
                 return Json::decodeIfJson((string)$request->getBody());
             });
 
-            return new MJMLModel([
+            return MJMLModel::create([
                 'html' => $response['html'],
                 'mjml' => $response['mjml'],
             ]);
@@ -85,7 +79,13 @@ class MJMLService extends Component
             }
 
             $html = file_get_contents($templatePath);
+
+            if (empty($html)) {
+                throw new MJMLException('Could not render template ' . $template . ' : The template was empty');
+            }
+
             $hash = md5($html);
+
             /** @var MJMLModel|null $output */
             $output = Craft::$app->getCache()->getOrSet("mjml-{$hash}-{$renderMethod}", function() use ($html, $renderMethod) {
                 return $renderMethod === 'cli' ? $this->parseCli($html) : $this->parse($html);
@@ -102,21 +102,25 @@ class MJMLService extends Component
     }
 
     /**
-     * @param null $html
+     * @param string|null $html
      *
      * @return MJMLModel|null
-     * @throws \yii\base\ErrorException
+     * @throws ErrorException
+     * @throws Exception
      */
-    public function parseCli($html = null)
+    public function parseCli(?string $html = null): ?MJMLModel
     {
         $settings = MJML::$plugin->getSettings();
-        $configArgs = "{$settings->mjmlCliConfigArgs}";
+        $configArgs = App::parseEnv($settings->mjmlCliConfigArgs);
 
-        if (!empty($settings->mjmlCliIncludesPath)) {
-            $configArgs = "{$configArgs} --config.filePath {$settings->mjmlCliIncludesPath}";
+        $mjmlCliIncludesPath = App::parseEnv($settings->mjmlCliIncludesPath);
+        if (!empty($mjmlCliIncludesPath)) {
+            $configArgs = "{$configArgs} --config.filePath {$mjmlCliIncludesPath}";
         }
 
-        $mjmlPath = "{$settings->nodePath} {$settings->mjmlCliPath}";
+        $nodePath = App::parseEnv($settings->nodePath);
+        $mjmlCliPath = App::parseEnv($settings->mjmlCliPath);
+        $mjmlPath = "{$nodePath} {$mjmlCliPath}";
         $hash = md5($html);
         $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
@@ -147,7 +151,7 @@ class MJMLService extends Component
             return null;
         }
 
-        return new MJMLModel([
+        return MJMLModel::create([
             'html' => $output,
             'mjml' => $html,
         ]);

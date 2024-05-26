@@ -10,10 +10,10 @@
 
 namespace superbig\mjml\models;
 
-use superbig\mjml\MJML;
-
 use Craft;
+
 use craft\base\Model;
+use craft\behaviors\EnvAttributeParserBehavior;
 
 /**
  * @author    Superbig
@@ -22,38 +22,12 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $nodePath = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliPath = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliConfigArgs = '';
-
-    /**
-     * @var string
-     */
-    public $mjmlCliIncludesPath = '';
-
-    /**
-     * @var string
-     */
-    public $appId = '';
-
-    /**
-     * @var string
-     */
-    public $secretKey = '';
+    public string $nodePath = '';
+    public string $mjmlCliPath = '';
+    public string $mjmlCliConfigArgs = '';
+    public string $mjmlCliIncludesPath = '';
+    public string $appId = '';
+    public string $secretKey = '';
 
     public function init(): void
     {
@@ -62,14 +36,40 @@ class Settings extends Model
         parent::init();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules(): array
+    public function defineBehaviors(): array
+    {
+        return [
+            'parser' => [
+                'class' => EnvAttributeParserBehavior::class,
+                'attributes' => [
+                    'nodePath',
+                    'mjmlCliPath',
+                    'mjmlCliConfigArgs',
+                    'mjmlCliIncludesPath',
+                    'appId',
+                    'secretKey',
+                ],
+            ],
+        ];
+    }
+
+    public function defineRules(): array
     {
         return [
             [['appId', 'secretKey', 'mjmlCliPath', 'nodePath', 'mjmlCliConfigArgs'], 'string'],
-            [['appId', 'secretKey'], 'required'],
+            [['appId', 'secretKey'], 'required', 'when' => fn(Settings $model) => !empty($model->appId) || !empty($model->secretKey)],
+            [['mjmlCliPath', 'nodePath'], 'required', 'when' => fn(Settings $model) => !empty($model->mjmlCliPath) || !empty($model->nodePath)],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'appId' => Craft::t('mjml', 'API App ID'),
+            'secretKey' => Craft::t('mjml', 'API Secret Key'),
+            'mjmlCliPath' => Craft::t('mjml', 'MJML Cli Path'),
+            'nodePath' => Craft::t('mjml', 'Node.js Path'),
+            'mjmlCliConfigArgs' => Craft::t('mjml', 'MJML Cli Config Arguments'),
         ];
     }
 }

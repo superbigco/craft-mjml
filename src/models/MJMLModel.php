@@ -10,8 +10,8 @@
 
 namespace superbig\mjml\models;
 
-use craft\helpers\Template;
 use craft\base\Model;
+use craft\helpers\Template;
 
 /**
  * @author    Superbig
@@ -20,36 +20,27 @@ use craft\base\Model;
  */
 class MJMLModel extends Model
 {
-    // Public Properties
-    // =========================================================================
+    public string $html;
+    public string $mjml;
 
-    /**
-     * @var string
-     */
-    public $html;
-
-    /**
-     * @var string
-     */
-    public $mjml;
-
-    /**
-     * @var string
-     */
-    public $mjmlVersion;
-
-    // Public Methods
-    // =========================================================================
-
-    public function output()
+    public function output(): \Twig\Markup
     {
         return Template::raw($this->html);
     }
 
     /**
+     * @param array{html: string, mjml: string} $results
+     * @return MJMLModel
+     */
+    public static function create(array $results): MJMLModel
+    {
+        return new self($results);
+    }
+
+    /**
      * @inheritdoc
      */
-    public function rules(): array
+    public function defineRules(): array
     {
         return [
             [['html', 'mjml'], 'string'],

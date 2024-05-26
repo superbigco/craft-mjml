@@ -17,44 +17,59 @@
 
 <h2>MJML API</h2>
 
-{{ forms.textField({
+{{ forms.autosuggestField({
     label: 'API App ID',
     instructions: 'Enter the app id received by email',
     id: 'appId',
     name: 'appId',
-    value: settings['appId']})
+    value: settings['appId'] ?? null,
+    suggestEnvVars: true,
+    errors: settings.getErrors('appId'),
+})
 }}
 
-{{ forms.textField({
+{{ forms.autosuggestField({
     label: 'API Secret Key',
     instructions: 'Enter the secret key received by email',
     id: 'secretKey',
     name: 'secretKey',
-    value: settings['secretKey']})
+    value: settings['secretKey'] ?? null,
+    suggestEnvVars: true,
+    errors: settings.getErrors('secretKey'),
+})
 }}
 
 <h2>MJML local CLI</h2>
 
-{{ forms.textField({
-    label: 'Node path',
-    instructions: 'Enter the path to where the your version of Node is located, i.e. `/usr/local/bin/node`',
+{{ forms.autosuggestField({
+    label: 'Node.js Path',
+    instructions: 'Enter the path to where the your version of Node.js is located, i.e. `/usr/local/bin/node`',
     id: 'nodePath',
     name: 'nodePath',
-    value: settings['nodePath']})
+    suggestEnvVars: true,
+    errors: settings.getErrors('nodePath'),
+    value: settings.nodePath,
+})
 }}
 
-{{ forms.textField({
-    label: 'MJML cli path',
-    instructions: 'Enter the path to where the MJML cli installed with npm is located, i.e. `/usr/local/bin/mjml`',
+{{ forms.autosuggestField({
+    label: 'MJML CLI PAth',
+    instructions: 'Enter the path to where the MJML CLI installed with npm is located, i.e. `/usr/local/bin/mjml`',
     id: 'mjmlCliPath',
     name: 'mjmlCliPath',
-    value: settings['mjmlCliPath']})
+    suggestEnvVars: true,
+    errors: settings.getErrors('mjmlCliPath'),
+    value: settings.mjmlCliPath,
+})
 }}
 
-{{ forms.textField({
-    label: 'MJML cli config args',
-    instructions: 'Enter the (optional) cli config args, e.g. `--config.minify true`',
+{{ forms.autosuggestField({
+    label: 'MJML CLI Config Arguments',
+    instructions: 'Enter the (optional) MJML CLI config arguments, e.g. `--config.minify true`',
     id: 'mjmlCliConfigArgs',
     name: 'mjmlCliConfigArgs',
-    value: settings['mjmlCliConfigArgs']})
+    suggestEnvVars: true,
+    errors: settings.getErrors('mjmlCliConfigArgs'),
+    value: settings['mjmlCliConfigArgs'] ?? null,
+})
 }}

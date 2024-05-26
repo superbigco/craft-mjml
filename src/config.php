@@ -24,16 +24,16 @@
 
 return [
     // The path to where the your version of Node is located, i.e. `/usr/local/bin/node`
-    'nodePath'  => '',
+    'nodePath' => '',
 
     // The path to where the MJML cli installed with npm is located, i.e. `/usr/local/bin/mjml`
-    'mjmlCliPath'   => '',
+    'mjmlCliPath' => '',
 
     // cli config args, e.g. `--config.minify true`',
-    'mjmlCliConfigArgs'   => '',
+    'mjmlCliConfigArgs' => '',
 
     // The app id received by email
-    'appId'     => '',
+    'appId' => '',
 
     // Enter the secret key received by email
     'secretKey' => '',

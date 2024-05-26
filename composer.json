@@ -2,7 +2,7 @@
     "name": "superbig/craft-mjml",
     "description": "Render Twig emails with MJML, the only framework that makes responsive email easy.",
     "type": "craft-plugin",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "keywords": [
         "craft",
         "cms",
@@ -25,10 +25,28 @@
         "craftcms/cms": "^4.0.0-beta.1",
         "mikehaertl/php-shellcommand": "^1.4"
     },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main",
+        "craftcms/rector": "dev-main"
+    },
     "autoload": {
         "psr-4": {
           "superbig\\mjml\\": "src/"
         }
+    },
+    "scripts": {
+        "phpstan": "phpstan --ansi --memory-limit=1G",
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --fix --ansi"
+    },
+    "config": {
+        "allow-plugins": {
+            "craftcms/plugin-installer": true,
+            "yiisoft/yii2-composer": true
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
     },
     "extra": {
         "name": "MJML",

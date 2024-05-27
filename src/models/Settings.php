@@ -25,16 +25,8 @@ class Settings extends Model
     public string $nodePath = '';
     public string $mjmlCliPath = '';
     public string $mjmlCliConfigArgs = '';
-    public string $mjmlCliIncludesPath = '';
     public string $appId = '';
     public string $secretKey = '';
-
-    public function init(): void
-    {
-        $this->mjmlCliIncludesPath = Craft::$app->getView()->getTemplatesPath();
-
-        parent::init();
-    }
 
     public function defineBehaviors(): array
     {
@@ -45,7 +37,6 @@ class Settings extends Model
                     'nodePath',
                     'mjmlCliPath',
                     'mjmlCliConfigArgs',
-                    'mjmlCliIncludesPath',
                     'appId',
                     'secretKey',
                 ],

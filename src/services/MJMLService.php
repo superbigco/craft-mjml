@@ -22,8 +22,11 @@ use mikehaertl\shellcommand\Command;
 use superbig\mjml\exceptions\MJMLException;
 use superbig\mjml\MJML;
 use superbig\mjml\models\MJMLModel;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
 use yii\base\ErrorException;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 
 /**
  * @author    Superbig
@@ -69,10 +72,20 @@ class MJMLService extends Component
         }
     }
 
-    public function include(string $template = '', $variables = [], $renderMethod = 'cli')
+    /**
+     * @param string $template
+     * @param array $variables
+     * @param string $renderMethod
+     * @return string|null
+     * @throws LoaderError
+     * @throws SyntaxError
+     */
+    public function include(string $template = '', array $variables = [], string $renderMethod = 'cli'): ?string
     {
+        $view = Craft::$app->getView();
+
         try {
-            $templatePath = Craft::$app->getView()->resolveTemplate($template, View::TEMPLATE_MODE_SITE);
+            $templatePath = $view->resolveTemplate($template, View::TEMPLATE_MODE_SITE);
 
             if (!$templatePath) {
                 throw new MJMLException('Could not find template: ' . $template);
@@ -95,9 +108,11 @@ class MJMLService extends Component
                 throw new MJMLException('Could not render template: ' . $template);
             }
 
-            return Craft::$app->getView()->renderString($output->output(), $variables);
+            return $view->renderString($output->output(), $variables);
         } catch (MJMLException $e) {
             Craft::error('Could not generate output: ' . $e->getMessage(), 'mjml');
+
+            return null;
         }
     }
 
@@ -110,20 +125,34 @@ class MJMLService extends Component
      */
     public function parseCli(?string $html = null): ?MJMLModel
     {
+        $view = Craft::$app->getView();
+        $oldTemplateMode = $view->getTemplateMode();
+        $view->setTemplateMode(View::TEMPLATE_MODE_SITE);
+        $templatesPath = $view->getTemplatesPath();
+
         $settings = MJML::$plugin->getSettings();
         $configArgs = App::parseEnv($settings->mjmlCliConfigArgs);
-
-        $mjmlCliIncludesPath = App::parseEnv($settings->mjmlCliIncludesPath);
-        if (!empty($mjmlCliIncludesPath)) {
-            $configArgs = "{$configArgs} --config.filePath {$mjmlCliIncludesPath}";
-        }
+        $configArgs = "{$configArgs} --config.filePath {$templatesPath}";
 
         $nodePath = App::parseEnv($settings->nodePath);
         $mjmlCliPath = App::parseEnv($settings->mjmlCliPath);
         $mjmlPath = "{$nodePath} {$mjmlCliPath}";
+
         $hash = md5($html);
         $tempPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-{$hash}.html";
         $tempOutputPath = Craft::$app->getPath()->getTempPath() . "/mjml/mjml-output-{$hash}.html";
+
+        $view->setTemplateMode($oldTemplateMode);
+
+        // Check if Node.js exists
+        if (!file_exists($nodePath)) {
+            throw new InvalidConfigException("Node.js executable not found at path: {$nodePath}");
+        }
+
+        // Check if MJML CLI exists
+        if (!file_exists($mjmlCliPath)) {
+            throw new InvalidConfigException("MJML CLI executable not found at path: {$mjmlCliPath}");
+        }
 
         try {
             if (!file_exists($tempOutputPath)) {

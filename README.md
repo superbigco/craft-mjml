@@ -74,9 +74,9 @@ return [
 
 ## Using MJML
 
-You can either use the MJML cli locally, or the MJML API.
+You can either use the MJML CLI locally, or the MJML API.
 
-To use the cli, you need to install both Node and [the mjml executable](https://mjml.io/documentation/#installation):
+To use the CLI, you need to install both Node and [the mjml executable](https://mjml.io/documentation/#installation):
 
 To use the API, you need to [request a API key](https://mjml.io/api).  
 

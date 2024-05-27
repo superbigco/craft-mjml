@@ -4,7 +4,7 @@ run-name: Create release for ${{ github.event.client_payload.version }}
 on:
   repository_dispatch:
     types:
-      - superbig/new-release
+      - craftcms/new-release
 
 jobs:
   build:

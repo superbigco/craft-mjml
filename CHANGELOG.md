@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.2 - 2024-05-27
+### Fixed
+- Fixed issue where using the plugin when rendering a template with the Craft Core Mailer would use the CP templates folder as relative path for `mj-include` calls
+
 ## 2.0.1 - 2024-05-26
 ### Fixed
 - Fixed issues with saving settings

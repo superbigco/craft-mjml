@@ -144,13 +144,13 @@ class MJMLService extends Component
 
         $view->setTemplateMode($oldTemplateMode);
 
-        // Check if Node.js exists
-        if (!file_exists($nodePath)) {
+        // Check if Node.js exists and is executable
+        if (!$this->isExecutable($nodePath)) {
             throw new InvalidConfigException("Node.js executable not found at path: {$nodePath}");
         }
 
-        // Check if MJML CLI exists
-        if (!file_exists($mjmlCliPath)) {
+        // Check if MJML CLI exists and is executable
+        if (!$this->isExecutable($mjmlCliPath)) {
             throw new InvalidConfigException("MJML CLI executable not found at path: {$mjmlCliPath}");
         }
 
@@ -210,5 +210,44 @@ class MJMLService extends Component
         }
 
         return $shellCommand->getOutput();
+    }
+
+    /**
+     * Checks whether a give path is executable.
+     *
+     * Looks through the PATH environment variables to find
+     * the binary unless an absolute path has been supplied.
+     *
+     * Makes sure the binary is executable.
+     *
+     * Caches a positive result to prevent redundant stat calls
+     * when sending large amounts of emails in one go.
+     *
+     * @param $path The executable path
+     *
+     * @return bool
+     */
+    protected function isExecutable(string $path): bool
+    {
+        static $executables = [];
+
+        if ($executables[$path] ?? false) {
+            return true; // Cached from previous checks
+        }
+
+        if (is_executable($path)) {
+            $executables[$path] = true; // Cache for next checks
+            return true;
+        }
+
+        // Look through PATH
+        foreach (explode(PATH_SEPARATOR, getenv("PATH")) as $prefix) {
+            if (is_executable($prefix.DIRECTORY_SEPARATOR.$path)) {
+                $executables[$path] = true; // Cache for next checks
+                return true;
+            }
+        }
+
+        return false; // Not found or not executable
     }
 }

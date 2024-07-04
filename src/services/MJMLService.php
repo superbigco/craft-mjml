@@ -242,7 +242,7 @@ class MJMLService extends Component
 
         // Look through PATH
         foreach (explode(PATH_SEPARATOR, getenv("PATH")) as $prefix) {
-            if (is_executable($prefix.DIRECTORY_SEPARATOR.$path)) {
+            if (is_executable($prefix . DIRECTORY_SEPARATOR . $path)) {
                 $executables[$path] = true; // Cache for next checks
                 return true;
             }

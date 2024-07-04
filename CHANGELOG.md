@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 5.0.5 - 2024-05-27
+## 5.0.1 - 2024-07-04
+### Fixed
+- Fixed regression where installs using globally installed `npx` or `nvm` would not be able to find the MJML binary
+
+## 5.0.0 - 2024-05-27
 ### Added
 - Craft 5 support
 

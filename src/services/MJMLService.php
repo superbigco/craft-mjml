@@ -48,7 +48,7 @@ class MJMLService extends Component
         
         $clientConfig = ['base_uri' => $apiUrl];
         
-        // Only add auth if appId and secretKey are provided
+        // Add auth if both appId and secretKey are provided
         $appId = App::parseEnv($settings->appId);
         $secretKey = App::parseEnv($settings->secretKey);
         if (!empty($appId) && !empty($secretKey)) {

@@ -32,9 +32,13 @@ return [
     // cli config args, e.g. `--config.minify true`',
     'mjmlCliConfigArgs' => '',
 
-    // The app id received by email
+    // Custom API URL (optional). Defaults to https://api.mjml.io/v1/ if not provided.
+    // Use this to specify a private MJML server endpoint, e.g. http://your-mjml-server:15500/v1/
+    'apiUrl' => '',
+
+    // The app id received by email (optional if using a custom API without authentication)
     'appId' => '',
 
-    // Enter the secret key received by email
+    // Enter the secret key received by email (optional if using a custom API without authentication)
     'secretKey' => '',
 ];

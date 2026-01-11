@@ -18,8 +18,20 @@
 <h2>MJML API</h2>
 
 {{ forms.autosuggestField({
+    label: 'API URL',
+    instructions: 'Enter the custom API URL (optional). Defaults to the official MJML API at https://api.mjml.io/v1/. You can use this to specify a private MJML server endpoint.',
+    id: 'apiUrl',
+    name: 'apiUrl',
+    value: settings['apiUrl'] ?? null,
+    suggestEnvVars: true,
+    errors: settings.getErrors('apiUrl'),
+    placeholder: 'https://api.mjml.io/v1/'
+})
+}}
+
+{{ forms.autosuggestField({
     label: 'API App ID',
-    instructions: 'Enter the app id received by email',
+    instructions: 'Enter the app id received by email (optional if using a custom API without authentication)',
     id: 'appId',
     name: 'appId',
     value: settings['appId'] ?? null,
@@ -30,7 +42,7 @@
 
 {{ forms.autosuggestField({
     label: 'API Secret Key',
-    instructions: 'Enter the secret key received by email',
+    instructions: 'Enter the secret key received by email (optional if using a custom API without authentication)',
     id: 'secretKey',
     name: 'secretKey',
     value: settings['secretKey'] ?? null,

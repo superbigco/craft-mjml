@@ -63,10 +63,14 @@ return [
     // cli config args, e.g. `--config.minify true`',
     'mjmlCliConfigArgs'   => '',
 
-    // The app id received by email
+    // Custom API URL (optional). Defaults to https://api.mjml.io/v1/ if not provided.
+    // Use this to specify a private MJML server endpoint, e.g. http://your-mjml-server:15500/v1/
+    'apiUrl'    => '',
+
+    // The app id received by email (optional if using a custom API without authentication)
     'appId'     => '',
 
-    // Enter the secret key received by email
+    // Enter the secret key received by email (optional if using a custom API without authentication)
     'secretKey' => '',
 ];
 
@@ -74,11 +78,35 @@ return [
 
 ## Using MJML
 
-You can either use the MJML CLI locally, or the MJML API.
+You can either use the MJML CLI locally, the MJML API, or a custom/private MJML API endpoint.
 
 To use the CLI, you need to install both Node and [the mjml executable](https://mjml.io/documentation/#installation):
 
-To use the API, you need to [request a API key](https://mjml.io/api).  
+To use the official API, you need to [request a API key](https://mjml.io/api).
+
+### Using a custom API endpoint
+
+You can also use a custom or private MJML API endpoint instead of the official MJML API. This is useful for:
+- Lightening the load on MJML servers
+- Faster response times if the MJML servers are busy
+- Having a fallback if something happens to the official API service
+- Running MJML rendering in your own infrastructure for privacy or compliance reasons
+
+To use a custom API endpoint, simply set the `apiUrl` configuration option to point to your server:
+
+```php
+return [
+    'apiUrl' => 'http://your-mjml-server:15500/v1/',
+];
+```
+
+The custom endpoint must be compatible with the [MJML API specification](https://mjml.io/api). A compatible option is [mjml-server](https://github.com/danihodovic/mjml-server), which can be easily deployed using Docker:
+
+```bash
+docker run -p 15500:15500 danihodovic/mjml-server
+```
+
+When using a custom API endpoint that doesn't require authentication, you can omit the `appId` and `secretKey` settings.
 
 Dynamic example with MJML CLI:
 

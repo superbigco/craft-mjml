@@ -39,10 +39,23 @@ class MJMLService extends Component
     {
         $settings = MJML::$plugin->getSettings();
         $hash = md5($html);
-        $client = new Client([
-            'base_uri' => 'https://api.mjml.io/v1/',
-            'auth' => [App::parseEnv($settings->appId), App::parseEnv($settings->secretKey)],
-        ]);
+        $apiUrl = App::parseEnv($settings->apiUrl) ?: 'https://api.mjml.io/v1/';
+        
+        // Ensure the URL ends with a trailing slash
+        if (substr($apiUrl, -1) !== '/') {
+            $apiUrl .= '/';
+        }
+        
+        $clientConfig = ['base_uri' => $apiUrl];
+        
+        // Add auth if both appId and secretKey are provided
+        $appId = App::parseEnv($settings->appId);
+        $secretKey = App::parseEnv($settings->secretKey);
+        if (!empty($appId) && !empty($secretKey)) {
+            $clientConfig['auth'] = [$appId, $secretKey];
+        }
+        
+        $client = new Client($clientConfig);
 
         try {
             $response = Craft::$app->getCache()->getOrSet("mjml-{$hash}", function() use ($html, $client) {

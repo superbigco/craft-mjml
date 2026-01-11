@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- Added support for custom MJML API endpoints via `apiUrl` setting, allowing use of private MJML servers instead of the official API
+- Made authentication optional when using custom API endpoints that don't require credentials
+
 ## 5.0.1 - 2024-07-04
 ### Fixed
 - Fixed regression where installs using globally installed `npx` or `nvm` would not be able to find the MJML binary

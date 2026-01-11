@@ -22,6 +22,7 @@
         }
     ],
     "require": {
+        "php": "^8.2",
         "craftcms/cms": "^5.0",
         "mikehaertl/php-shellcommand": "^1.4"
     },

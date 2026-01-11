@@ -84,7 +84,7 @@ To use the CLI, you need to install both Node and [the mjml executable](https://
 
 To use the official API, you need to [request a API key](https://mjml.io/api).
 
-### Using a Custom API Endpoint
+### Using a custom API endpoint
 
 You can also use a custom or private MJML API endpoint instead of the official MJML API. This is useful for:
 - Lightening the load on MJML servers

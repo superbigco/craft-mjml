@@ -4,8 +4,6 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
-
 ## 5.0.2 - 2026-01-11
 ### Added
 - Added support for custom MJML API endpoints via `apiUrl` setting, allowing use of private MJML servers instead of the official API
